@@ -28,13 +28,13 @@ Parameter p(i)   requerimiento energético del estado i en MWh
 
 Table k(i,m) matriz de costos de transporte de 1MWh de estado i a estado m
          e1   e2    e3    e4    e5
-e1       1    1     1     1      1
-e2       1    1     1     1      1
-e3       1    1     1     1      1
-e4       1    1     1     1      1
-e5       1    1     1     1      1;
+e1       0    1     1     1      1
+e2       1    0     1     1      1
+e3       1    1     0     1      1
+e4       1    1     1     0      1
+e5       1    1     1     1      0;
 
-Table l(i,j) límite de MWh de energía de tipo j que puede generar  el estado i
+Table l(i,j) límite de MWh de energía de tipo j que puede producir el estado i
          f1    f2    f3
 e1       1     1     1
 e2       1     1     1
@@ -42,8 +42,8 @@ e3       1     1     1
 e4       1     1     1
 e5       1     1     1;
 
-Parameter h(j)   huella de carbón producida por 1MWh de energía de tipo j
-  /f1 6000, f2 7000, f3 8000/;
+Parameter h   huella de carbón producida por 1MWh de energía de tipo carbon
+  /40/;
 
 * falta agregar la funcion m(h)
 
