@@ -1,47 +1,48 @@
 *************************************************************************
-***      El energÈtico problema de optimizaciÛn                       ***
+***      El energ√©tico problema de optimizaci√≥n                       ***
 ***                                                                   ***
 *
 *************************************************************************
 
-* los mienbros de los sets est·n en el orden dado en el enunciado del problema
-* e.g. f1 = "tÈrmicas de carbÛn"
+* los mienbros de los sets est√°n en el orden dado en el enunciado del problema
+* e.g. f1 = "t√©rmicas de carb√≥n"
 Sets
   i      conjunto de estados  /e1*e5/
-  j      fuentes de energÌa   /f1*f3/;
+  j      fuentes de energ√≠a   /f1*f3/;
 
 * Utilizar m como alias para i
 Alias(i, m);
 
-Parameters
-  c(i,j) matriz de costos de producciÛn de 1MWh en estado i con fuente j
-  /   f1    f2    f3
+*f1= termicas de carbon, hidroelectricas, energia eolica
+*e1 = Oregon, e2= Washington, e3=California, e4=Arizona, e5=Nevada
+Table c(i,j) matriz de costos de producci√≥n de 1MWh en estado i con fuente j
+      f1    f2    f3
    e1  1     1     1
    e2  1     1     1
    e3  1     1     1
    e4  1     1     1
-   e5  1     1     1 /
+   e5  1     1     1;
 
-  p(i)   requerimiento energÈtico del estado i en MWh
-  /e1 6000, e2 7000, e3 8000, e4 9500, e5 11000/
+Parameter p(i)   requerimiento energ√©tico del estado i en MWh
+  /e1 6000, e2 7000, e3 8000, e4 9500, e5 11000/;
 
-  k(i,m) matriz de costos de transporte de 1MWh de estado i a estado m
-  /    e1   e2    e3    e4    e5
-   e1
-   e2
-   e3
-   e4
-   e5                             /
+Table k(i,m) matriz de costos de transporte de 1MWh de estado i a estado m
+         e1   e2    e3    e4    e5
+e1       1    1     1     1      1
+e2       1    1     1     1      1
+e3       1    1     1     1      1
+e4       1    1     1     1      1
+e5       1    1     1     1      1;
 
-  l(i,j) lÌmite de MWh de energÌa de tipo j que puede generar  el estado i
-  /   f1    f2    f3
-   e1
-   e2
-   e3
-   e4
-   e5                 /
+Table l(i,j) l√≠mite de MWh de energ√≠a de tipo j que puede generar  el estado i
+         f1    f2    f3
+e1       1     1     1
+e2       1     1     1
+e3       1     1     1
+e4       1     1     1
+e5       1     1     1;
 
-  h(j)   huella de carbÛn producida por 1MWh de energÌa de tipo j
+Parameter h(j)   huella de carb√≥n producida por 1MWh de energ√≠a de tipo j
   /f1 6000, f2 7000, f3 8000/;
 
 * falta agregar la funcion m(h)
@@ -59,9 +60,9 @@ FObjetivo                    Funcion Objetivo
 
 restr1(i)                    necesidades de los estados
 
-restr2(i,j)                  no se puede exceder el lÌmite de energÌa
+restr2(i,j)                  no se puede exceder el l√≠mite de energ√≠a
 
-restr3                       el 30% de la energÌa debe ser renovable;
+restr3                       el 30% de la energ√≠a debe ser renovable;
 
 FObjetivo      ..      z =e= sum((i,j), x(i,j) * c(i,j)) + sum((i,m), y(i,m) * k(i,m)) + sum((i,j), x(i,j) * h(j));
 
