@@ -16,31 +16,32 @@ Alias(i, m);
 *f1= termicas de carbon, hidroelectricas, energia eolica
 *e1 = Oregon, e2= Washington, e3=California, e4=Arizona, e5=Nevada
 Table c(i,j) matriz de costos de producción de 1MWh en estado i con fuente j
-      f1    f2    f3
-   e1  1     1     1
-   e2  1     1     1
-   e3  1     1     1
-   e4  1     1     1
-   e5  1     1     1;
+         f1      f2      f3
+e1       11      17      25
+e2       9       14      27
+e3       6       22      23
+e4       14      15      23
+e5       7       34      24;
 
 Parameter p(i)   requerimiento energético del estado i en MWh
   /e1 6000, e2 7000, e3 8000, e4 9500, e5 11000/;
 
+
 Table k(i,m) matriz de costos de transporte de 1MWh de estado i a estado m
          e1   e2    e3    e4    e5
-e1       0    1     1     1      1
-e2       1    0     1     1      1
-e3       1    1     0     1      1
-e4       1    1     1     0      1
-e5       1    1     1     1      0;
+e1       0    8     5     12    6
+e2       8    0     10    22    18
+e3       5    10    0     4     4
+e4       12   22    4     0     2
+e5       6    18    4     2     0;
 
 Table l(i,j) límite de MWh de energía de tipo j que puede producir el estado i
-         f1    f2    f3
-e1       1     1     1
-e2       1     1     1
-e3       1     1     1
-e4       1     1     1
-e5       1     1     1;
+         f1      f2      f3
+e1       360     2784    1568
+e2       690     5410    3173
+e3       9785    5017    5594
+e4       3470    2784    6241
+e5       340     1874    1654;
 
 Parameter h   huella de carbón producida por 1MWh de energía de tipo carbon
   /40/;
@@ -64,7 +65,7 @@ restr2(i,j)                  no se puede exceder el límite de energía
 
 restr3                       el 30% de la energía debe ser renovable;
 
-FObjetivo      ..      z =e= sum((i,j), x(i,j) * c(i,j)) + sum((i,m), y(i,m) * k(i,m)) + sum((i,j), x(i,j) * h(j));
+FObjetivo      ..      z =e= sum((i,j), x(i,j) * c(i,j)) + sum((i,m), y(i,m) * k(i,m)) + sum((i,j), x(i,j) * h);
 
 restr1(i)         ..      sum(j, x(i,j)) + sum(m, y(i,m)) =g= p(i);
 
