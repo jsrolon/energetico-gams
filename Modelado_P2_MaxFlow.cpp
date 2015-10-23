@@ -95,7 +95,7 @@ int main() {
 	//Matriz de costo de transporte de una unidad de energia del estado i al estado j
 	int k[5][5] = {{0,8,5,12,6},{8,0,10,22,18},{5,10,0,4,4},{12,22,4,0,2},{6,18,4,2,0}};
 	//Arreglo de necesidad energetica del estado i
-	int p[5] = {471.2,927.3,2039.6,1249.5,386.8};
+	int p[5] = {4710,9270,20390,12490,3868};
 	
 	//37 nodos en total, incluyendo nodo fuente y destino
 	MinCostMaxFlow *maxFlow = new MinCostMaxFlow(37);
