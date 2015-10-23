@@ -24,7 +24,7 @@ e4       12          15      13
 e5       19          11      24;
 
 Parameter p(i)   requerimiento energético del estado i en MWh
-  /e1 471.2, e2 927.3, e3 2039.6, e4 1249.5, e5 386.8/;
+  /e1 471, e2 927, e3 2039, e4 1249, e5 386/;
 
 
 Table k(i,m) matriz de costos en millones de dolares de transporte de 1MWh de estado i a estado m
