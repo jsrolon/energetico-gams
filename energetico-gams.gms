@@ -70,22 +70,20 @@ multa(i)                    valor multa pais i
 
 FObjetivo      ..      z =e= sum((i,j), x(i,j) * c(i,j)) + sum((i,m), y(i,m) * k(i,m)) + sum(i, mu(i));
 
-restr1(i)         ..      sum(j, x(i,j)) + sum(m, y(i,m)) =g= p(i);
+restr1(i)         ..      sum(j, x(i,j)) + sum(m, y(i,m)) - sum(m, y(m,i)) =g= p(i);
 
 restr2(i,j)         ..      x(i,j) =l= l(i,j);
 
-restr3         ..     sum((i,j)$(ord(j) ne 1),x(i,j)) =g= sum((i,j),x(i,j)) * 0.3;
+restr3         ..     sum((i,j)$(ord(j) ne 1), x(i,j)) =g= sum((i,j),x(i,j)) * 0.3;
 
-multa(i)            ..   mu(i) =e= (((max(x(i, 'carbon')*h,40)-40)*1500) ** 1.2)/1000000;
+multa(i)            ..   mu(i) =e= ((x(i, 'carbon')*h*1500) ** 1.2)/1000000;
 
 Model energetico /all/ ;
 
-option dnlp=COUENNE
-Solve energetico using dnlp minimizing z;
+option nlp=COUENNE
+Solve energetico using nlp minimizing z;
 
-Display x.l;
-Display y.l;
-Display z.l;
+Display x.l, y.l, mu.l, z.l;
 
 
 
