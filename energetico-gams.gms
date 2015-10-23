@@ -17,14 +17,14 @@ Alias(i, m);
 *e1 = Oregon, e2= Washington, e3=California, e4=Arizona, e5=Nevada
 Table c(i,j) matriz de costos en millones de dolares de producción de 1MWh en estado i con fuente j
          carbon      hidro   eolica
-e1       11          17      25
-e2       9           14      27
-e3       6           22      23
-e4       14          15      23
-e5       7           34      24;
+e1       18          17      11
+e2       24          14      27
+e3       9           22      23
+e4       12          15      13
+e5       19          11      24;
 
 Parameter p(i)   requerimiento energético del estado i en MWh
-  /e1 6000, e2 7000, e3 8000, e4 9500, e5 11000/;
+  /e1 471.2, e2 927.3, e3 2039.6, e4 1249.5, e5 386.8/;
 
 
 Table k(i,m) matriz de costos en millones de dolares de transporte de 1MWh de estado i a estado m
@@ -50,7 +50,8 @@ Variables
   x(i,j)     MWh de tipo j que produce el estado i
   y(i, m)    MWh que compra el estado i al estado m
   mu(i)       Multa por huella de carbono del pais i
-  z          minimizacion;
+  z          minimizacion
+  ctotal            valor costo;
 Positive Variable x
 Positive Variable y;
 
@@ -64,9 +65,7 @@ restr2(i,j)                  no se puede exceder el límite de energía
 
 restr3                       el 30% de la energía debe ser renovable
 
-multa(i)                    valor multa pais i
-
-;
+consumoTotal                 consumo total;
 
 FObjetivo      ..      z =e= sum((i,j), x(i,j) * c(i,j)) + sum((i,m), y(i,m) * k(i,m)) + sum(i, mu(i));
 
@@ -76,14 +75,14 @@ restr2(i,j)         ..      x(i,j) =l= l(i,j);
 
 restr3         ..     sum((i,j)$(ord(j) ne 1), x(i,j)) =g= sum((i,j),x(i,j)) * 0.3;
 
-multa(i)            ..   mu(i) =e= ((x(i, 'carbon')*h*1500) ** 1.2)/1000000;
+consumoTotal    ..      ctotal =e= sum((i,j), x(i,j));
 
 Model energetico /all/ ;
 
 option nlp=COUENNE
 Solve energetico using nlp minimizing z;
 
-Display x.l, y.l, mu.l, z.l;
+Display x.l, y.l, mu.l, z.l, ctotal.l;
 
 
 
