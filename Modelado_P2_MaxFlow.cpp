@@ -89,13 +89,13 @@ struct MinCostMaxFlow {
 
 int main() {
 	//Matriz de costo de produccion de la energia j en el estado i
-	int c[5][3] = {{11,17,25},{9,14,27},{6,22,23},{14,15,23},{7,34,24}};
+	int c[5][3] = {{18,17,11},{24,14,27},{9,22,23},{12,15,13},{19,11,24}};
 	//Matriz de limite de produccion de energia de la fuente j en el estado i
 	int l[5][3] = {{360,2784,1568},{690,5410,3173},{9785,5017,5594},{3470,2784,6241},{340,1874,1654}};
 	//Matriz de costo de transporte de una unidad de energia del estado i al estado j
 	int k[5][5] = {{0,8,5,12,6},{8,0,10,22,18},{5,10,0,4,4},{12,22,4,0,2},{6,18,4,2,0}};
 	//Arreglo de necesidad energetica del estado i
-	int p[5] = {6000,7000,8000,9500,11000};
+	int p[5] = {4710,9270,20390,12490,3860};
 	
 	//37 nodos en total, incluyendo nodo fuente y destino
 	MinCostMaxFlow *maxFlow = new MinCostMaxFlow(37);
@@ -108,15 +108,12 @@ int main() {
 	
 	for(int i = 1; i <= 15; i++) {
 		maxFlow->AddEdge(0, i, INF, 0); // inicial a producción
-		cout << "to " << i << " from " << 0 << " cap " << INF << " cost " << 0 << "\n";
 	}
 	
 	int cont = 1;
 	for(int i = 0; i < 5; i++) {
 		for(int j = 0; j < 3; j++) {
        		maxFlow->AddEdge(cont,cont + 15, l[i][j],c[i][j]); // producción a envío
-       		
-       		cout << "to " << cont << " from " << cont +15 << " cap " << l[i][j] << " cost " << c[i][j] << "\n";
 			cont++;
     	}
 	}
@@ -127,7 +124,6 @@ int main() {
 		for(int k1 = 0; k1 < 3; k1++) {
 			for(int j = 0; j < 5; j++) {
 				maxFlow->AddEdge(cont,j+31,INF,k[i][j]);
-				cout << "to " << cont << " from " << j+31 << " cap " << INF << " cost " << k[i][j] << " valor i " << i << " valor j " << j << " valor k1 " << k1 << "\n";
 			}
 			cont++;
 		}
@@ -136,28 +132,36 @@ int main() {
 	//Inicilaiza de consumo a final
 	for(int i = 31; i <= 35; i++) {
 		maxFlow->AddEdge(i,36,p[i-31],0);
-		cout << "to " << i << " from " << 36 << " cap " << p[i-31] << " cost " << 0 << "\n";
 	}
 	
 	std::pair <int,int> resp = maxFlow->GetMaxFlow(0, 36);
 	
 	printf("Energia producida: %lli Costo total: %lli \n", resp.first, resp.second);
 	
-	//std::cout << "Energia producida: " << resp.first << " Costo total: " << resp.second << "\n";
-	for(int i = 0; i < 37; i++) {
-	std::cout << i << "\t";	
+	std::cout << "\n\n";
+	
+	//Imprimir X
+	cont = 1;
+	std::cout << "Produccion por estado y enegria \n"; 
+	for(int i = 0; i < 5; i++) {
+		for(int j = 0; j < 3; j++) {
+       		std::cout << "Estado " << i << " Energia " << j << ": " << maxFlow->getCap()[cont][cont+15] << "     ";
+			cont++;
+    	}
+    	std::cout << "\n";
 	}
-	std::cout << "\n";
-	for(int i = 0; i < 37; i++) {
-		std::cout << i << "\t";
-		for(int j = 0; j < 37; j++) {
-			int mc = l[i][j];
-			double lol = -1;
-			if(mc != 0) {
-				lol = (maxFlow->getCap()[i][j])/(l[i][j]);
+	
+	std::cout << "\n\n";
+	
+	//Imprmir Y
+	for(int j = 0; j < 5; j++) {
+		int sum = 0;
+		
+		for(int i = 16; i <=30; i++) {
+			if((i-16)/3 != j) {
+				sum += 	maxFlow->getCap()[i][j+31];	
 			}
-			std::cout << maxFlow->getCap()[i][j] << ":" << lol << "\t";
 		}
-		std::cout << "\n";
+		std::cout << "Estado " << j << " Compro " << sum << "\n";
 	}
 }
