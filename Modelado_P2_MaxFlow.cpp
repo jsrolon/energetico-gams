@@ -89,9 +89,9 @@ struct MinCostMaxFlow {
 
 int main() {
 	//Matriz de costo de produccion de la energia j en el estado i
-	int c[5][3] = {{18,17,11},{24,14,27},{9,22,23},{12,15,13},{19,11,24}};
+	int c[5][3] = {{10,17,11},{22,14,27},{9,22,23},{12,15,13},{19,11,24}};
 	//Matriz de limite de produccion de energia de la fuente j en el estado i
-	int l[5][3] = {{360,2784,1568},{690,5410,3173},{9785,5017,5594},{3470,2784,6241},{340,1874,1654}};
+	int l[5][3] = {{360,5784,1568},{10090,6410,3173},{9785,7017,5594},{8470,8784,6241},{340,1874,1654}};
 	//Matriz de costo de transporte de una unidad de energia del estado i al estado j
 	int k[5][5] = {{0,8,5,12,6},{8,0,10,22,18},{5,10,0,4,4},{12,22,4,0,2},{6,18,4,2,0}};
 	//Arreglo de necesidad energetica del estado i
